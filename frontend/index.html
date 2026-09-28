@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Royal Casino - Play & Win</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="logo">
+            <i class="fas fa-crown"></i>
+            <span>ROYAL CASINO</span>
+        </div>
+        
+        <div class="nav-right">
+            <!-- Wallet Section -->
+            <div class="wallet-section" id="walletSection" style="display: none;">
+                <div class="wallet-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <div class="wallet-info">
+                    <span class="wallet-label">Balance</span>
+                    <span class="wallet-amount" id="walletBalance">₹0.00</span>
+                </div>
+                <button class="btn-deposit" onclick="openDeposit()">
+                    <i class="fas fa-plus"></i> Add Cash
+                </button>
+                <button class="btn-withdraw" onclick="openWithdraw()">
+                    <i class="fas fa-minus"></i> Withdraw
+                </button>
+            </div>
+
+            <!-- Profile Section -->
+            <div class="profile-section" id="profileSection" style="display: none;">
+                <div class="profile-dropdown">
+                    <img src="https://api.dicebear.com/7.x/avataaars/svg?seed=default" alt="Profile" class="profile-avatar" id="profileAvatar">
+                    <div class="profile-info">
+                        <span class="profile-name" id="profileName">Guest</span>
+                        <span class="profile-id" id="profileId">ID: --</span>
+                    </div>
+                    <i class="fas fa-chevron-down"></i>
+                    
+                    <!-- Dropdown Menu -->
+                    <div class="dropdown-menu">
+                        <a href="#" onclick="showProfile()"><i class="fas fa-user"></i> My Profile</a>
+                        <a href="#" onclick="showTransactions()"><i class="fas fa-history"></i> Transactions</a>
+                        <a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Auth Buttons (shown when logged out) -->
+            <div class="auth-buttons" id="authButtons">
+                <button class="btn-login" onclick="openLogin()">Login</button>
+                <button class="btn-signup" onclick="openSignup()">Sign Up</button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to <span class="highlight">Royal Casino</span></h1>
+            <p>Experience the thrill of winning big! Join thousands of players and start your journey today.</p>
+            <div class="hero-stats">
+                <div class="stat">
+                    <span class="stat-number" id="totalPlayers">50,000+</span>
+                    <span class="stat-label">Active Players</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="totalWon">₹10Cr+</span>
+                    <span class="stat-label">Won Today</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number" id="liveGames">24/7</span>
+                    <span class="stat-label">Live Games</span>
+                </div>
+            </div>
+            <button class="btn-play-now" onclick="startPlaying()">Play Now</button>
+        </div>
+    </section>
+
+    <!-- Games Section -->
+    <section class="games-section">
+        <h2><i class="fas fa-gamepad"></i> Popular Games</h2>
+        <div class="games-grid">
+            <div class="game-card" onclick="openGame('slots')">
+                <div class="game-image slots"></div>
+                <div class="game-info">
+                    <h3>Slot Machines</h3>
+                    <p>Spin and win big jackpots!</p>
+                    <span class="game-players"><i class="fas fa-users"></i> 2,341 playing</span>
+                </div>
+            </div>
+            <div class="game-card" onclick="openGame('roulette')">
+                <div class="game-image roulette"></div>
+                <div class="game-info">
+                    <h3>Roulette</h3>
+                    <p>Classic casino experience</p>
+                    <span class="game-players"><i class="fas fa-users"></i> 1,892 playing</span>
+                </div>
+            </div>
+            <div class="game-card" onclick="openGame('blackjack')">
+                <div class="game-image blackjack"></div>
+                <div class="game-info">
+                    <h3>Blackjack</h3>
+                    <p>Beat the dealer!</p>
+                    <span class="game-players"><i class="fas fa-users"></i> 1,456 playing</span>
+                </div>
+            </div>
+            <div class="game-card" onclick="openGame('teenpatti')">
+                <div class="game-image teenpatti"></div>
+                <div class="game-info">
+                    <h3>Teen Patti</h3>
+                    <p>India's favorite card game</p>
+                    <span class="game-players"><i class="fas fa-users"></i> 3,102 playing</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('loginModal')">&times;</span>
+            <h2><i class="fas fa-sign-in-alt"></i> Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Mobile Number</label>
+                    <input type="tel" id="loginPhone" placeholder="Enter 10-digit number" maxlength="10" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="loginPassword" placeholder="Enter password" required>
+                </div>
+                <button type="submit" class="btn-submit">Login</button>
+            </form>
+            <p class="form-footer">Don't have an account? <a href="#" onclick="switchModal('loginModal', 'signupModal')">Sign Up</a></p>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('signupModal')">&times;</span>
+            <h2><i class="fas fa-user-plus"></i> Create Account</h2>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label><i class="fas fa-user"></i> Full Name</label>
+                    <input type="text" id="signupName" placeholder="Enter your name" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-phone"></i> Mobile Number</label>
+                    <input type="tel" id="signupPhone" placeholder="Enter 10-digit number" maxlength="10" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-id-card"></i> UPI ID (for withdrawals)</label>
+                    <input type="text" id="signupUpi" placeholder="yourname@upi" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="signupPassword" placeholder="Create password" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-lock"></i> Confirm Password</label>
+                    <input type="password" id="signupConfirmPassword" placeholder="Confirm password" required>
+                </div>
+                <div class="form-group">
+                    <label><i class="fas fa-ticket-alt"></i> Referral Code (Optional)</label>
+                    <input type="text" id="signupReferral" placeholder="Enter referral code">
+                </div>
+                <button type="submit" class="btn-submit">Create Account</button>
+            </form>
+            <p class="form-footer">Already have an account? <a href="#" onclick="switchModal('signupModal', 'loginModal')">Login</a></p>
+        </div>
+    </div>
+
+    <!-- Withdraw Modal -->
+    <div class="modal" id="withdrawModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('withdrawModal')">&times;</span>
+            <h2><i class="fas fa-money-bill-wave"></i> Withdraw Funds</h2>
+            <div class="withdraw-info">
+                <p><strong>Available Balance:</strong> <span id="withdrawBalance">₹0.00</span></p>
+                <p><strong>UPI ID:</strong> <span id="withdrawUpi">--</span></p>
+            </div>
+            <form id="withdrawForm">
+                <div class="form-group">
+                    <label><i class="fas fa-rupee-sign"></i> Amount</label>
+                    <input type="number" id="withdrawAmount" placeholder="Enter amount (Min: ₹100)" min="100" required>
+                </div>
+                <button type="submit" class="btn-submit">Request Withdrawal</button>
+            </form>
+            <p class="note"><i class="fas fa-info-circle"></i> Withdrawals processed within 24 hours</p>
+        </div>
+    </div>
+
+    <!-- Deposit Modal -->
+    <div class="modal" id="depositModal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('depositModal')">&times;</span>
+            <h2><i class="fas fa-plus-circle"></i> Add Cash</h2>
+            <div class="deposit-options">
+                <button class="deposit-amount" onclick="selectDeposit(100)">₹100</button>
+                <button class="deposit-amount" onclick="selectDeposit(500)">₹500</button>
+                <button class="deposit-amount" onclick="selectDeposit(1000)">₹1000</button>
+                <button class="deposit-amount" onclick="selectDeposit(5000)">₹5000</button>
+            </div>
+            <form id="depositForm">
+                <div class="form-group">
+                    <label><i class="fas fa-rupee-sign"></i> Custom Amount</label>
+                    <input type="number" id="depositAmount" placeholder="Enter amount" min="50" required>
+                </div>
+                <button type="submit" class="btn-submit">Proceed to Pay</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/wallet.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
